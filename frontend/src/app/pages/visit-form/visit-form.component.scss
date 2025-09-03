@@ -1,0 +1,112 @@
+/* Layout */
+.container { max-width: 760px; margin: 2rem auto; padding: 0 1rem; }
+/* Readonly appearance */
+.readonly {
+  background: #f8fafc;
+  color: #475467;
+  cursor: not-allowed;
+}
+.header-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.title { margin: 0; font-size: 1.25rem; font-weight: 600; letter-spacing: 0.2px; }
+.logo {
+  height: 100px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: 1px solid #edf0f2;
+  border-radius: 12px;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.06);
+}
+.title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+/* Forms */
+label { display: block; font-weight: 600; margin-top: 0.9rem; color: #344054; font-size: 0.92rem; }
+input:not([type]), input[type="text"], input[type="tel"], textarea, select.select {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  margin-top: 0.35rem;
+  border: 1px solid #d0d5dd;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  color: #101828;
+  background: #fff;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+input:not([type]):focus, input[type="text"]:focus, input[type="tel"]:focus, textarea:focus, select.select:focus {
+  outline: none;
+  border-color: #7aa7ff;
+  box-shadow: 0 0 0 3px rgba(64, 120, 242, 0.15);
+}
+textarea { resize: vertical; }
+.select { appearance: none; background-image: linear-gradient(45deg, transparent 50%, #667085 50%), linear-gradient(135deg, #667085 50%, transparent 50%), linear-gradient(to right, #d0d5dd, #d0d5dd); background-position: calc(100% - 16px) calc(1em + 2px), calc(100% - 11px) calc(1em + 2px), calc(100% - 2.5rem) 0.6rem; background-size: 5px 5px, 5px 5px, 1px 1.6rem; background-repeat: no-repeat; }
+
+.control-error { color: #b42318; font-size: 0.85rem; }
+
+/* Active visit rows */
+.row { display: flex; gap: 0.75rem; margin: 0.35rem 0; align-items: center; }
+.row label { width: 150px; font-weight: 600; margin: 0; color: #475467; }
+.row span { flex: 1; color: #101828; }
+
+/* Buttons */
+.btn { background: #1e293b; color: #fff; border: 1px solid #1e293b; padding: 0.6rem 1rem; margin-top: 1rem; border-radius: 10px; cursor: pointer; transition: background 0.15s ease, box-shadow 0.15s ease; }
+.btn:hover { background: #0f172a; box-shadow: 0 2px 8px rgba(2, 6, 23, 0.2); }
+.btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn.danger { background: #b42318; border-color: #b42318; }
+.btn.danger:hover { background: #912018; }
+/* Secondary button (site-like outline style) */
+.btn.secondary {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: #d0d5dd;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+}
+.btn.secondary:hover {
+  background: #f8fafc;
+  border-color: #98a2b3;
+  box-shadow: 0 2px 8px rgba(16, 24, 40, 0.08);
+}
+
+/* Actions row in active visit card */
+.card .actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 0.75rem; }
+
+/* Banners */
+.banner { padding: 0.6rem 0.8rem; border-radius: 10px; margin: 0.5rem 0; }
+.banner.info { background: #eff8ff; color: #1849a9; }
+.banner.error { background: #fef3f2; color: #b42318; }
+.banner.success { background: #ecfdf3; color: #057647; }
+.banner.warn { background: #fff7ed; color: #b45309; }
+
+/* Language switcher */
+.lang-switcher { display: flex; align-items: center; gap: 0.5rem; }
+.lang-label { font-weight: 500; color: #475467; font-size: 0.9rem; }
+
+/* Submit countdown hint */
+.hint {
+  margin-top: 0.5rem;
+  color: #667085;
+  font-size: 0.9rem;
+}
+
+/* Technicians section: keep consistent with global inputs */
+.tech-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.tech-row { display: grid; grid-template-columns: 1fr 220px auto; gap: 0.5rem; align-items: center; }
+.tech-number { max-width: 100%; }
+/* Right-align the Add Technician button */
+.tech-list .add-tech { align-self: flex-end; margin-left: auto; }
+
+@media (max-width: 520px) {
+  .row label { width: 120px; }
+  .tech-row { grid-template-columns: 1fr; }
+}
+
+footer { margin-top: 1rem; color: #666; }

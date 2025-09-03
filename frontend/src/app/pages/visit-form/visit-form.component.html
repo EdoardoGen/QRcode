@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="header-row">
+    <h1 class="title">{{ 'TITLE' | translate }}</h1>
+    <img src="assets/logo.jpeg" alt="Logo" class="logo">
+    <div class="lang-switcher">
+      <label for="langSel" class="lang-label">{{ 'LANG' | translate }}</label>
+      <select id="langSel" class="select" [value]="currentLang()" (change)="setLanguage($any($event.target).value)">
+        <option value="en">English</option>
+        <option value="fr">Français</option>
+        <option value="es">Español</option>
+        <option value="pt">Português</option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="loading()" class="banner info">Loading...</div>
+  <div *ngIf="error()" class="banner error">{{ error() }}</div>
+  <div *ngIf="success()" class="banner success">{{ success() }}</div>
+
+  <ng-container *ngIf="activeVisit(); else checkinForm">
+    <div class="card">
+      <h2>{{ 'ACTIVE_VISIT' | translate }}</h2>
+      <div class="row" *ngIf="activeVisit()!.power_plant"><label>{{ 'POWER_PLANT' | translate }}</label><span>{{ activeVisit()!.power_plant }}</span></div>
+      <div class="row" *ngIf="activeVisit()!.equipment_name"><label>{{ 'EQUIPMENT_NAME' | translate }}</label><span>{{ activeVisit()!.equipment_name }}</span></div>
+      <div class="row"><label>{{ 'TECHNICIANS' | translate }}</label><span>{{ activeVisit()!.technicians.join(', ') }}</span></div>
+      <div class="row"><label>{{ 'CHECKIN' | translate }}</label><span>{{ activeVisit()!.check_in | date:'medium' }}</span></div>
+      <div class="row" *ngIf="activeVisit()!.reason"><label>{{ 'REASON' | translate }}</label><span>{{ activeVisit()!.reason }}</span></div>
+      <div class="row" *ngIf="activeVisit()!.comment"><label>{{ 'COMMENT' | translate }}</label><span>{{ activeVisit()!.comment }}</span></div>
+      <div class="actions">
+        <button type="button" class="btn danger" (click)="onCheckout()" [disabled]="loading()">{{ 'CHECKOUT' | translate }}</button>
+        <button type="button" class="btn secondary" (click)="startNewForm()">{{ 'NEW_FORM' | translate }}</button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-template #checkinForm>
+    <div class="card">
+      <div class="title">
+        <h2>{{ 'FORM_TITLE' | translate }}</h2>
+        <button type="button" class="btn secondary" (click)="clearAll()">{{ 'CLEAR_ALL' | translate }}</button>
+      </div>
+      <div *ngIf="coActivity() > 0" class="banner warn">{{ 'CO_ACTIVITY' | translate:{count: coActivity()} }}</div>
+      <form [formGroup]="form" (ngSubmit)="onCheckIn()">
+        <label>{{ 'POWER_PLANT' | translate }}</label>
+        <input type="text" formControlName="powerPlant" placeholder="SAGE" [readonly]="true" class="readonly" />
+
+        <div *ngIf="showEquipmentFromUrl()">
+          <label>{{ 'EQUIPMENT_NAME' | translate }}</label>
+          <input type="text" formControlName="equipmentName" placeholder="E1" [readonly]="true" class="readonly" />
+        </div>
+
+        <label>{{ 'MAINT_COMPANY' | translate }}</label>
+        <input type="text" formControlName="maintenanceCompany" />
+
+        <label>{{ 'STATUS' | translate }}</label>
+        <select formControlName="status" class="select">
+          <option value="IN">{{ 'IN' | translate }}</option>
+          <option value="OUT">{{ 'OUT' | translate }}</option>
+        </select>
+
+        <label>{{ 'MALFUNCTION' | translate }}</label>
+        <input type="text" formControlName="malfunctionType" />
+
+        <label>{{ 'TECHNICIANS' | translate }}</label>
+        <div formArrayName="technicians" class="tech-list">
+          <div *ngFor="let group of techniciansFA.controls; let i = index" [formGroupName]="i" class="tech-row">
+            <input formControlName="name" type="text" autocomplete="name" placeholder="{{ 'TECH_PLACEHOLDER' | translate }}" />
+            <input formControlName="number" type="tel" inputmode="tel" autocomplete="tel" placeholder="{{ 'TECH_NUMBER' | translate }}" class="tech-number" />
+            <button type="button" class="btn" (click)="removeTechnician(i)" *ngIf="techniciansFA.length > 1">{{ 'REMOVE' | translate }}</button>
+          </div>
+          <button type="button" class="btn add-tech" (click)="addTechnician()">{{ 'ADD_TECH' | translate }}</button>
+        </div>
+
+        <label>{{ 'REASON' | translate }}</label>
+        <input type="text" formControlName="reason" placeholder="{{ 'REASON_PH' | translate }}" />
+
+        <label>{{ 'COMMENT' | translate }}</label>
+        <textarea rows="3" formControlName="comment" placeholder="{{ 'COMMENT_PH' | translate }}"></textarea>
+
+        <div class="actions">
+          <button type="submit" class="btn primary" [disabled]="loading() || isSubmitLocked()">{{ 'CHECKIN_BTN' | translate }}</button>
+        </div>
+        <div class="hint" *ngIf="isSubmitLocked()">
+          Please wait {{ countdownSeconds() }}s before submitting again.
+        </div>
+      </form>
+    </div>
+  </ng-template>
+</div>
